@@ -1,0 +1,11 @@
+{
+	"authors": [
+		"TheZipCreator"
+	],
+	"copyright": "Copyright © 2022, TheZipCreator",
+	"dependencies": {
+	},
+	"description": "D Esoteric Language Interpreter Collection",
+	"license": "GNU General Public License v3",
+	"name": "delic"
+}

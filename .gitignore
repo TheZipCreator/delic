@@ -1,0 +1,16 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/delic
+delic.so
+delic.dylib
+delic.dll
+delic.a
+delic.lib
+delic-test-*
+*.exe
+*.o
+*.obj
+*.lst
+*.pdb
