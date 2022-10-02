@@ -4,7 +4,8 @@ import delic;
 enum Language {
   none,
   brainfuck,
-  thue
+  thue,
+  befunge
 }
 
 int main(string[] args) {
@@ -34,6 +35,10 @@ int main(string[] args) {
           string s = delic.thue.interpret(code);
           if(outputFinalState)
             writeln("\n", s);
+          break;
+        }
+        case Language.befunge: {
+          delic.befunge.interpret(code);
           break;
         }
       }
