@@ -5,6 +5,7 @@ module delic.brainfuck;
 import delic.interpreterexception, delic.termutils;
 import std.stdio;
 
+/// Interprets a string of brainfuck code
 void interpret(string code, ref ubyte[] tape) {
   // remove non-bf characters
   {
