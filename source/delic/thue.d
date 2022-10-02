@@ -9,6 +9,8 @@ private struct Rule {
   string post;
 }
 
+/// Interprets a string of Thue code
+/// Returns: the final state after execution ends
 string interpret(string code) {
   Rule[] rules;
   string[] lines = code.splitLines();
@@ -33,11 +35,13 @@ string interpret(string code) {
     if(possibles.length == 0)
       break;
     Rule r = possibles[uniform(0, $)];
+    // put to stdout
     if(r.post.startsWith("~")) {
       state = state.replace(r.pre, "");
       writeln(r.post[1..$]);
       continue;
     }
+    // read from stdin
     if(r.post == ":::") {
       state = state.replace(r.pre, readln()[0..$-1]);
     }

@@ -1,6 +1,6 @@
 /// Interprets Befunge-98
 ///
-/// More info: https://esolangs.org/wiki/Befunge
+/// More info: https://git.catseye.tc/Funge-98/blob/master/doc/funge98.markdown
 module delic.befunge;
 
 import delic.interpreterexception, delic.termutils;
@@ -10,6 +10,7 @@ private enum Direction {
   left, right, up, down
 }
 
+/// Interprets a string of Befunge-98 code
 void interpret(string code) {
   char[][] program;
   // turn string into 2d char array
