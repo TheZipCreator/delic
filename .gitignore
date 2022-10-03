@@ -14,3 +14,4 @@ delic-test-*
 *.obj
 *.lst
 *.pdb
+*.zip
