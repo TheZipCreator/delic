@@ -4,5 +4,6 @@ DELIC is a collection of interpreters for esoteric programming languages created
 Supported languages:
 * Brainfuck
 * Thue
+
 Partially supported languages:
 * Befunge-98
