@@ -16,8 +16,15 @@ void interpret(string code) {
   // turn string into 2d char array
   {
     import std.string;
-    foreach(line; code.splitLines) {
+    size_t largest = 0;
+    foreach(i, line; code.splitLines) {
       program ~= cast(char[])line;
+      // make sure it's an actual box
+      if(line.length > largest) {
+        largest = line.length;
+      }
+      while(program[i].length < largest)
+        program[i] ~= ' ';
     }
   }
   Direction dir = Direction.right;
@@ -41,14 +48,8 @@ void interpret(string code) {
     stack = stack[0..$-1];
     return i;
   }
-  // other
-  void move() {
-    final switch(dir) {
-      case Direction.left:  x--; break;
-      case Direction.right: x++; break;
-      case Direction.up:    y--; break;
-      case Direction.down:  y++; break;
-    }
+  // moving
+  void wrap() {
     if(y < 0)
       y = program.length-1;
     else if(y >= program.length)
@@ -58,36 +59,72 @@ void interpret(string code) {
     else if(x >= program[y].length)
       x = 0;
   }
+  void move() {
+    final switch(dir) {
+      case Direction.left:  x--; break;
+      case Direction.right: x++; break;
+      case Direction.up:    y--; break;
+      case Direction.down:  y++; break;
+    }
+    wrap;
+  }
+  void unmove() {
+    final switch(dir) {
+      case Direction.left:  x++; break;
+      case Direction.right: x--; break;
+      case Direction.up:    y++; break;
+      case Direction.down:  y--; break;
+    }
+    wrap;
+  }
+  char curr() {
+    return program[y][x];
+  }
   while(true) {
     // interpret instruction
     if(stringMode) {
-      if(program[y][x] == '"') {
+      if(curr == '"') {
         stringMode = false;
+      } else if(curr == ' ') {
+        // SGML-Style string
+        while(curr == ' ') {
+          move;
+        }
+        unmove;
+        push(' ');
       } else {
-        push(program[y][x]);
+        push(curr);
       }
     } else {
-      switch(program[y][x]) {
+      string op(string op) {
+        import std.string;
+        return q{
+          int a = pop;
+          int b = pop;
+          push(b[op]a);
+        }.replace("[op]", op);
+      }
+      switch(curr) {
         case '+':
-          push(pop+pop);
+          mixin(op("+"));
           break;
         case '-':
-          push(pop-pop);
+          mixin(op("-"));
           break;
         case '*':
-          push(pop*pop);
+          mixin(op("*"));
           break;
         case '/':
-          push(pop/pop);
+          mixin(op("/"));
           break;
         case '%':
-          push(pop%pop);
+          mixin(op("%"));
           break;
         case '!':
           push(pop ? 0 : 1);
           break;
         case '`':
-          push(pop > pop);
+          mixin(op(">"));
           break;
         case '>':
           dir = Direction.right;
@@ -110,10 +147,10 @@ void interpret(string code) {
           }
           break;
         case '_':
-          dir = pop ? Direction.left : Direction.right;
+          dir = pop == 0 ? Direction.right : Direction.left;
           break;
         case '|':
-          dir = pop ? Direction.up : Direction.down;
+          dir = pop == 0 ? Direction.down : Direction.up;
           break;
         case '"':
           stringMode = true;
@@ -124,8 +161,8 @@ void interpret(string code) {
         case '\\': {
           int a = pop;
           int b = pop;
-          push(b);
           push(a);
+          push(b);
           break;
         }
         case '$':
@@ -164,8 +201,46 @@ void interpret(string code) {
         case '@':
           return;
         case '0': .. case '9':
-          push(program[y][x]-'0');
+          push(curr-'0');
           break;
+        case 'a': .. case 'f':
+          push((curr-'a')+10);
+          break;
+        case '\'':
+          move;
+          push(curr);
+          break;
+        case 's':
+          move;
+          program[y][x] = cast(char)pop;
+          break;
+        case 'n':
+          stack = [];
+          break;
+        case ';':
+          do move; while(curr != ';');
+          break;
+        case 'r':
+          final switch(dir) {
+            case Direction.left:  dir = Direction.right; break;
+            case Direction.right: dir = Direction.left;  break;
+            case Direction.up:    dir = Direction.down;  break;
+            case Direction.down:  dir = Direction.up;    break;
+          }
+          break;
+        case 'j': {
+          int count = pop;
+          for(int i = 0; i < count; i++)
+            move;
+          break;
+        }
+        case 'q': {
+          import core.stdc.stdlib : exit;
+          exit(pop);
+        }
+        case 'z':
+          break;
+        // TODO: m { u } i o y = t x
         default:
           break;
       }
