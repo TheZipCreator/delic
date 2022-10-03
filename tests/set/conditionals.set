@@ -1,0 +1,4 @@
+> prints "A" if user input is A, otherwise prints B
+set a !
+[a=A] set ! A
+[a/A] set ! B

@@ -1,3 +1,3 @@
 module delic;
 
-public import delic.brainfuck, delic.interpreterexception, delic.thue, delic.befunge;
+public import delic.brainfuck, delic.interpreterexception, delic.thue, delic.befunge, delic.set;

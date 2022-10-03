@@ -1,0 +1,8 @@
+set a !
+set b 6
+set a (a-8)
+set b (b-1)
+[b/0] set ? 3
+[a=0] set ! 48
+[a/0] set ! 49
+[a/0] set ? 7

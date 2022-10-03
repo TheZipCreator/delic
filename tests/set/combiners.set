@@ -1,0 +1,4 @@
+set b (A+1)
+set ! b     > expect B
+set b (A-1)
+set ! b     > expect @

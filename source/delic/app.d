@@ -5,7 +5,8 @@ enum Language {
   none,
   brainfuck,
   thue,
-  befunge
+  befunge,
+  set
 }
 
 int main(string[] args) {
@@ -41,6 +42,9 @@ int main(string[] args) {
           delic.befunge.interpret(code);
           break;
         }
+        case Language.set:
+          delic.set.interpret(code);
+          break;
       }
     }
   } catch(GetOptException e) {
