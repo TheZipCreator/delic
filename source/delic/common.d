@@ -1,4 +1,5 @@
-module delic.termutils;
+/// Contains some utilities used by other parts of this package
+module delic.common;
 
 /// Returns a single unbuffered character from stdin
 char getch();
@@ -22,3 +23,10 @@ version(Windows) {
 }
 
 // TODO: support linux & macos
+
+/// Thrown when an error occurs in any of the interpreters
+class InterpreterException : Exception {
+  this(string msg) {
+    super(msg);
+  }
+}

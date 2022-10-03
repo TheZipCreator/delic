@@ -6,7 +6,7 @@ module delic.set;
 import std.string;
 import std.stdio;
 import std.uni : toLower;
-import delic.termutils, delic.interpreterexception;
+import delic.common : InterpreterException, getch;
 
 /// Interprets a string of set code
 void interpret(string code) {

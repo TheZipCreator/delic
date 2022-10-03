@@ -3,7 +3,7 @@
 /// More info: https://git.catseye.tc/Funge-98/blob/master/doc/funge98.markdown
 module delic.befunge;
 
-import delic.interpreterexception, delic.termutils;
+import delic.common : InterpreterException, getch;
 import std.stdio, std.random;
 
 private enum Direction {

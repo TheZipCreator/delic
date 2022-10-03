@@ -2,7 +2,7 @@
 ///
 /// More info: https://esolangs.org/wiki/Brainfuck
 module delic.brainfuck;
-import delic.interpreterexception, delic.termutils;
+import delic.common : InterpreterException, getch;
 import std.stdio;
 
 /// Interprets a string of brainfuck code
