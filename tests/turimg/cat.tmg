@@ -1,0 +1,3 @@
+;outputs it's input (works in binary and ascii mode)
+in		,	out
+out		.	in

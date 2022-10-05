@@ -6,16 +6,19 @@ enum Language {
   brainfuck,
   thue,
   befunge,
-  set
+  set,
+  turimg
 }
 
 int main(string[] args) {
   Language lang;
   bool outputFinalState = false;
+  bool asciiMode = false;
   try {
     auto opt = getopt(args,
       "language|l", "The language to interpret", &lang,
-      "outputFinalState", "(Thue) Output the final state after program execution finishes", &outputFinalState
+      "outputFinalState", "(Thue) Output the final state after program execution finishes", &outputFinalState,
+      "asciiMode", "(Turimg) Enable ascii mode", &asciiMode
     );
     if(opt.helpWanted) {
       defaultGetoptPrinter("Options:", opt.options);
@@ -44,6 +47,9 @@ int main(string[] args) {
         }
         case Language.set:
           delic.set.interpret(code);
+          break;
+        case Language.turimg:
+          delic.turimg.interpret(code, asciiMode);
           break;
       }
     }

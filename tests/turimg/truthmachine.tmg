@@ -1,0 +1,5 @@
+;takes 1 bit from the input, if it's 0 it outputs 0 and halts. If it's 1 it outputs 1 and repeats indefinitely (should be run in binary mode)
+in		,	test
+test			end	loop
+loop		.	loop
+end		.	halt
