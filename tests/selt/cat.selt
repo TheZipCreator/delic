@@ -1,0 +1,3 @@
+# prints its input
+start:println @stdin
+goto start

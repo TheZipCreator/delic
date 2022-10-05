@@ -7,7 +7,8 @@ enum Language {
   thue,
   befunge,
   set,
-  turimg
+  turimg,
+  selt
 }
 
 int main(string[] args) {
@@ -51,11 +52,17 @@ int main(string[] args) {
         case Language.turimg:
           delic.turimg.interpret(code, asciiMode);
           break;
+        case Language.selt:
+          delic.selt.interpret(code);
+          break;
       }
     }
   } catch(GetOptException e) {
     writeln(e.msg);
     return 1;
+  } catch(FileException e) {
+    writeln(e.msg);
+    return 4;
   } catch(InterpreterException e) {
     writeln(e.msg);
     return 3;

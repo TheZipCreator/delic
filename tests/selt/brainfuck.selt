@@ -1,0 +1,112 @@
+# note: currently does not support 
+loop:
+  print BF\>\ 
+  code = @stdin
+  goto end~(@code == `)
+  end0:
+  print stdin\>\ 
+  input = @stdin
+  ip = 0
+  inputCounter = 0
+  execloop1:
+    goto i~(@code.@ip)
+    i+:tape~@ptr = @(tape~@ptr)+1
+    goto execend
+    i-:tape~@ptr = @(tape~@ptr)-1
+    goto execend
+    i>:ptr = @ptr+1
+    goto execend
+    i<:ptr = @ptr-1
+    goto execend
+    i.:goto ch~((@(tape~@ptr)) == 10)
+    ch1: println `
+    goto execend
+    ch0: print @ascii.(@(tape~@ptr))
+    goto execend
+    i,:goto i,~(@inputCounter >= ?@input)
+    i,0:tape~@ptr = @input.@inputCounter
+    inputCounter = @inputCounter+1
+    goto execend
+    i,1:tape~@ptr = 0
+    goto execend
+    inputCounter = @inputCounter+1
+    i[:goto lbrack~(@(tape~@ptr) == 0)
+    lbrack1:
+      brack = 1
+      lbrack_loop1:
+        ip = @ip+1
+        goto lbrack_~(@code.@ip)
+        lbrack_[: brack = @brack+1
+        goto lbrack_\+
+        lbrack_]: brack = @brack-1
+        lbrack_+:
+        lbrack_-:
+        lbrack_>:
+        lbrack_<:
+        lbrack_.:
+        lbrack_,:goto lbrack_loop~(@brack > 0)
+      lbrack_loop0: goto execend
+    i]:goto rbrack~(@(tape~@ptr) != 0)
+    rbrack1:
+      brack = 1
+      rbrack_loop1:
+        ip = @ip-1
+        goto rbrack_~(@code.@ip)
+        rbrack_[: brack = @brack-1
+        goto rbrack_\+
+        rbrack_]: brack = @brack+1
+        rbrack_+:
+        rbrack_-:
+        rbrack_>:
+        rbrack_<:
+        rbrack_.:
+        rbrack_,:goto rbrack_loop~(@brack > 0)
+      rbrack_loop0: goto execend
+    lbrack0:
+    rbrack0:
+    execend:
+    ip = @ip+1
+    goto execloop~(@ip < ?@code)
+  execloop0:
+    println `
+  end1:
+    goto loop
+code:
+ip:
+brack:
+ptr:0
+ascii:         	                       !"#$%&'()*+,-./0123456789 ;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ 
+input:
+inputCounter:0
+tape0:0
+tape1:0
+tape2:0
+tape3:0
+tape4:0
+tape5:0
+tape6:0
+tape7:0
+tape8:0
+tape9:0
+tape10:0
+tape11:0
+tape12:0
+tape13:0
+tape14:0
+tape15:0
+tape16:0
+tape17:0
+tape18:0
+tape19:0
+tape20:0
+tape21:0
+tape22:0
+tape23:0
+tape24:0
+tape25:0
+tape26:0
+tape27:0
+tape28:0
+tape29:0
+tape30:0
+tape31:0

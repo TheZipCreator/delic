@@ -1,0 +1,42 @@
+# a simple program that lets you edit and execute selt code
+goto start
+index:
+line:
+# changeable, just add more lines to the end of the program
+lines:20
+start:print \?
+goto @stdin
+edit:
+  println Line
+  line = @stdin
+  println Text
+  code~@line = @stdin
+  goto start
+view:
+  index = 0
+  viewloop0:
+    println @(code~@index)
+    index = @index+1
+    goto viewloop~(@index >= @lines)
+  viewloop1:goto start
+run:
+code0:
+code1:
+code2:
+code3:
+code4:
+code5:
+code6:
+code7:
+code8:
+code9:
+code10:
+code11:
+code12:
+code13:
+code14:
+code15:
+code16:
+code17:
+code18:
+code19:

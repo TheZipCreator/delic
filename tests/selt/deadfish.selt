@@ -1,0 +1,25 @@
+# https://esolangs.org/wiki/Deadfish
+loop:
+  print \>\>\ 
+  input = @stdin
+  index = 0
+  goto inloop~(@input != `) # jump to end when input is empty
+  inloop1:
+    goto @input.@index # go to the label corresponding to each command
+    i:val = @val+1
+    goto end
+    d:val = @val-1
+    goto end
+    s:val = @val*@val
+    goto end
+    o:println @val
+    goto end
+    end:goto reset~((@val == \-1) || (@val == 256))
+    reset1:val = 0
+    reset0:
+    index = @index+1
+    goto inloop~(@index < ?@input)
+  inloop0: goto loop
+index:0
+val:0
+input:

@@ -1,0 +1,2 @@
+print |1
+# prints its own source code (if you remove this comment)

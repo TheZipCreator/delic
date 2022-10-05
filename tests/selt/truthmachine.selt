@@ -1,0 +1,5 @@
+# takes input, if 0 it prints 0 and halts. if 1, it prints 1 indefinitely
+goto branch~@stdin
+branch1:print 1
+goto branch1
+branch0:print 0

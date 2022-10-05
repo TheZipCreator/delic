@@ -1,0 +1,7 @@
+# sort of a repl. Since you can't change labels at all or anything you can't do too much with it
+loop:
+  print \>\>\ 
+  input = @stdin
+  goto input
+input:
+goto loop

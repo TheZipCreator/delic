@@ -1,0 +1,9 @@
+# prints out the input char by char
+var = @stdin
+loop1:
+  print @var.@index
+  index = @index+1
+  goto loop~(@index < ?@var)
+loop0: return
+var:
+index:0
