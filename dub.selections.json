@@ -1,6 +1,7 @@
 {
 	"fileVersion": 1,
 	"versions": {
-		"arsd-official": "10.9.2"
+		"arsd-official": "10.9.2",
+		"pegged": "0.4.6"
 	}
 }

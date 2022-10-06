@@ -1,0 +1,9 @@
+main:
+  rep stdin|if1
+    0|endlessloop;
+  '0|stdout;
+endlessloop:
+  '1|stdout;
+  0|endlessloop;
+if1:
+  rep 208;

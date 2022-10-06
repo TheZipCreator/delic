@@ -4,6 +4,7 @@
 	],
 	"copyright": "Copyright © 2022, TheZipCreator",
 	"dependencies": {
+		"pegged": "~>0.4.6"
 	},
 	"description": "D Esoteric Language Interpreter Collection",
 	"license": "GNU General Public License v3",

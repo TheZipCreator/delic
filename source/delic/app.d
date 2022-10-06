@@ -8,7 +8,8 @@ enum Language {
   befunge,
   set,
   turimg,
-  selt
+  selt,
+  rep
 }
 
 int main(string[] args) {
@@ -54,6 +55,9 @@ int main(string[] args) {
           break;
         case Language.selt:
           delic.selt.interpret(code);
+          break;
+        case Language.rep:
+          delic.rep.interpret(code);
           break;
       }
     }

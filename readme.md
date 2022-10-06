@@ -6,6 +6,7 @@ Supported languages:
 * [Thue](https://esolangs.org/wiki/Thue)
 * [Set](https://esolangs.org/wiki/Set)
 * [Turimg](https://esolangs.org/wiki/Turimg)
+* [Selt](https://esolangs.org/wiki/Selt)
 
 Partially supported languages:
 * [Befunge-98](https://git.catseye.tc/Funge-98/blob/master/doc/funge98.markdown)
