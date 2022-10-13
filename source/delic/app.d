@@ -10,7 +10,8 @@ enum Language {
   turimg,
   selt,
   rep,
-  doublelang
+  doublelang,
+  throughput
 }
 
 int main(string[] args) {
@@ -64,6 +65,9 @@ int main(string[] args) {
           break;
         case Language.doublelang:
           delic.doublelang.interpret(code, assembleDouble);
+          break;
+        case Language.throughput:
+          delic.throughput.interpret(code);
           break;
       }
     }

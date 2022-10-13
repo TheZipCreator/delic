@@ -439,7 +439,7 @@ private {
 	class SeltInterpreterException : InterpreterException {
 		int line;
 		this(int line, string msg) {
-			super(msg);
+			super(line, msg);
 			this.line = line;
 		}
 	}

@@ -1,0 +1,5 @@
+hello: emitter["Hello, World!" -1]
+out: output
+halt: halter
+hello -> out
+out -> halt

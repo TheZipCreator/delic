@@ -29,4 +29,11 @@ class InterpreterException : Exception {
   this(string msg) {
     super(msg);
   }
+  import std.conv;
+  this(int line, string msg) {
+    super(line.to!string~": "~msg);
+  }
+  this(int line, int col, string msg) {
+    super(line.to!string~":"~col.to!string~": "~msg);
+  }
 }
