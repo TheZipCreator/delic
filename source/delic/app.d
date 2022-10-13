@@ -9,18 +9,21 @@ enum Language {
   set,
   turimg,
   selt,
-  rep
+  rep,
+  doublelang
 }
 
 int main(string[] args) {
   Language lang;
   bool outputFinalState = false;
   bool asciiMode = false;
+  bool assembleDouble = false;
   try {
     auto opt = getopt(args,
       "language|l", "The language to interpret", &lang,
       "outputFinalState", "(Thue) Output the final state after program execution finishes", &outputFinalState,
-      "asciiMode", "(Turimg) Enable ascii mode", &asciiMode
+      "asciiMode", "(Turimg) Enable ascii mode", &asciiMode,
+      "assembleDouble", "(Double) Run the assembler on the program before executing", &assembleDouble
     );
     if(opt.helpWanted) {
       defaultGetoptPrinter("Options:", opt.options);
@@ -58,6 +61,9 @@ int main(string[] args) {
           break;
         case Language.rep:
           delic.rep.interpret(code);
+          break;
+        case Language.doublelang:
+          delic.doublelang.interpret(code, assembleDouble);
           break;
       }
     }
