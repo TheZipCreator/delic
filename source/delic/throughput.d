@@ -1,6 +1,6 @@
 module delic.throughput;
 
-import std.variant, std.stdio, std.conv;
+import std.variant, std.stdio, std.conv, std.typecons;
 import delic.common;
 import pegged.grammar;
 
@@ -15,10 +15,15 @@ private {
       NodeType <  Emitter
         / Output
         / Halter
+        / Operator
+        / Buffer
 
-      Emitter <  'emitter' '[' Value (Number)? ']'
+      Emitter <  'emitter' '[' Value (Number Number?)? ']'
       Output <  'output'
       Halter <  'halter'
+      Operator <  OperatorName ('[' Value ']')?
+      OperatorName <  'adder' / 'subtractor' / 'multiplier' / 'divider' / 'moduler' / 'concatenator'
+      Buffer <  'buffer' ('[' Value ']')?
 
       Value <  Number
         / String
@@ -53,6 +58,33 @@ private {
         case Type.STRING:
           return get!string;
       }
+    }
+    mixin template genOp(string s) {
+      import std.string;
+      mixin(q{
+        int res;
+        foreach(Var v; vars) {
+          if(v.type != Type.NUMBER)
+            throw new InterpreterException("Attempted to add the non-number value "~v.toString);
+          res {op}= v.get!int;
+        }
+        return Var(res);
+      }.replace("{op}", s));
+    }
+    static Var add(Var[] vars) {
+      mixin genOp!"+";
+    }
+    static Var sub(Var[] vars) {
+      mixin genOp!"-";
+    }
+    static Var mul(Var[] vars) {
+      mixin genOp!"*";
+    }
+    static Var div(Var[] vars) {
+      mixin genOp!"/";
+    }
+    static Var mod(Var[] vars) {
+      mixin genOp!"%";
     }
   }
   mixin template NodeConstructor() {
@@ -153,6 +185,26 @@ private {
       return "halter "~outputArrayString;
     }
   }
+  // op should be a static Var function (add, sub, mul, div, con)
+  class Operator(string op) : Node {
+    Var[] inputs;
+    Var value;
+    this(string name) {
+      super(name);
+    }
+    this(string name, Var value) {
+      super(name);
+      this.value = value;
+    }
+    override void input(int tick, Var value) {
+      inputs ~= value;
+    }
+    override void output(int tick) {
+      mixin(`Var res = Var.`~op~`(inputs);`);
+      inputs = [];
+      return res;
+    }
+  }
 
   Var value(ParseTree v) {
     if(v.children.length > 0)
@@ -178,13 +230,13 @@ private {
             case "Throughput.Emitter":
               final switch(nodeType.children.length) {
                 case 1:
-                  n = new Emitter(name, value(nodeType[0]));
+                  n = new Emitter(name, nodeType[0].value);
                   break;
                 case 2:
-                  n = new Emitter(name, value(nodeType[0]), value(nodeType[1]).get!int);
+                  n = new Emitter(name, nodeType[0].value, nodeType[1].value.get!int);
                   break;
                 case 3:
-                  n = new Emitter(name, value(nodeType[0]), value(nodeType[1]).get!int, value(nodeType[2]).get!int);
+                  n = new Emitter(name, nodeType[0].value, nodeType[1].value.get!int, nodeType[2].value.get!int);
                   break;
               }
               break;
@@ -219,8 +271,10 @@ private {
 
 /// Interprets Throughput Code
 void interpret(string code) {
-  auto ast = Throughput(code)[0];
-  //writeln(ast);
+  auto ast = Throughput(code);
+  if(!ast.successful)
+    throw new InterpreterException(ast.failMsg);
+  ast = ast[0]; // grab Throughput.Program
   Node[] nodes = generateNodes(ast);
   int tick;
   try {
@@ -231,6 +285,6 @@ void interpret(string code) {
       tick++;
     }
   } catch(HaltException) {
-
+    // halter triggered: stop execution
   }
 }
