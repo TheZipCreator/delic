@@ -21,8 +21,27 @@ version(Windows) {
     }
   }
 }
-
-// TODO: support linux & macos
+else version(Posix) {
+	import core.stdc.stdio;
+	import core.sys.posix.termios;
+	import core.sys.posix.unistd;
+	char getch() {
+		// some magic to change the terminal state to not line buffer
+		termios oldt, newt;
+		tcgetattr(STDIN_FILENO, &oldt);
+		newt = oldt;
+		newt.c_lflag &= ~(ICANON);
+		// get char
+		// NOTE: this does not check for EOF. piping something into stdin will result in garbage characters being read. In non-canonical mode, EOF is not returned by getchar(), so I can't just do that
+		// TODO: fix
+		char c = cast(char)(getchar());
+		// restore old terminal state
+		tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+		// return char
+		return c;
+	}
+}
+else static assert(0, "There is currently no implementation of getch() for your system. Please implement one in order to compile DELIC.");
 
 /// Thrown when an error occurs in any of the interpreters
 class InterpreterException : Exception {

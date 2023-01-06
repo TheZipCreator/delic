@@ -11,7 +11,7 @@ enum Language {
   selt,
   rep,
   doublelang,
-  throughput
+  // throughput
 }
 
 int main(string[] args) {
@@ -32,6 +32,7 @@ int main(string[] args) {
     }
     foreach(string file; args[1..$]) {
       string code = readText(file);
+			import delic.brainfuck;
       final switch(lang) {
         case Language.none:
           writeln("Please specify a language");
@@ -66,9 +67,9 @@ int main(string[] args) {
         case Language.doublelang:
           delic.doublelang.interpret(code, assembleDouble);
           break;
-        case Language.throughput:
-          delic.throughput.interpret(code);
-          break;
+        //case Language.throughput:
+        //  delic.throughput.interpret(code);
+        //  break;
       }
     }
   } catch(GetOptException e) {

@@ -21,7 +21,7 @@ void interpret(string code, ref ubyte[] tape) {
           break;
       }
     }
-    code = ap.toString();
+    code = ap[];
   }
   size_t pointer = 0;
   if(tape.length == 0)
