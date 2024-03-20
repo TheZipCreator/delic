@@ -10,6 +10,3 @@ Fully Supported languages:
 
 Usable but missing language features:
 * [Befunge-98](https://git.catseye.tc/Funge-98/blob/master/doc/funge98.markdown)
-
-Work In Progress:
-* [Double](https://esolangs.org/wiki/Double)

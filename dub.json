@@ -3,9 +3,7 @@
 		"TheZipCreator"
 	],
 	"copyright": "Copyright © 2022, TheZipCreator",
-	"dependencies": {
-		"pegged": "~>0.4.6"
-	},
+	"dependencies": {},
 	"description": "D Esoteric Language Interpreter Collection",
 	"license": "GNU General Public License v3",
 	"name": "delic"
