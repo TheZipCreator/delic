@@ -1,3 +1,0 @@
-main:
-  rep 255
-    $|stdout;
