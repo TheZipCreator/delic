@@ -5,6 +5,7 @@ enum Language {
 	none,
 	befunge,
 	brainfuck,
+	deadfish,
 	selt,
 	set,
 	thue,
@@ -30,6 +31,11 @@ shared static this() {
 			"Brainfuck", 
 			"One of the most famous esolangs. Extremely minimalist, containing only 6 commands.",
 			"Brainfuck"
+		),
+		Language.deadfish: LanguageInfo(
+			"Deadfish", 
+			"A simple, non-turing-complete language that has many implementations due to its extreme simplicity.",
+			"Deadfish"
 		),
 		Language.set: LanguageInfo(
 			"Set",
@@ -111,6 +117,9 @@ int main(string[] args) {
 					break;
 				case Language.selt:
 					delic.selt.interpret(code);
+					break;
+				case Language.deadfish:
+					delic.deadfish.interpret(code);
 					break;
 			}
 		}
