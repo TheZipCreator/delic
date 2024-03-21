@@ -6,6 +6,7 @@ enum Language {
 	befunge,
 	brainfuck,
 	deadfish,
+	malbolge,
 	selt,
 	set,
 	thue,
@@ -36,6 +37,11 @@ shared static this() {
 			"Deadfish", 
 			"A simple, non-turing-complete language that has many implementations due to its extreme simplicity.",
 			"Deadfish"
+		),
+		Language.malbolge: LanguageInfo(
+			"Malbolge", 
+			"Another famous esolang. Designed to be as hard to program in as possible.",
+			"Malbolge"
 		),
 		Language.set: LanguageInfo(
 			"Set",
@@ -121,6 +127,8 @@ int main(string[] args) {
 				case Language.deadfish:
 					delic.deadfish.interpret(code);
 					break;
+				case Language.malbolge:
+					delic.malbolge.interpret(code);
 			}
 		}
 		if(source) {
