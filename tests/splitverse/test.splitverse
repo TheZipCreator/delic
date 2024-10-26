@@ -1,0 +1,46 @@
+global is_sorted = { arr, cb ->
+	// if the array has length 0 it's definitely sorted
+	if($len(arr) == 0)
+		return true;
+	// indices to check (excluding the last since there'd be no pair to check)
+	global indices = $range($len(arr)-1);
+	// numbers of verses still running
+	global nverses = $len(indices);
+	// number of verses that detected an unsorted pair
+	global nunsorted = nverses;
+	// split into parent and child verses
+	split parent = [true, false];
+	// if we're the parent verse
+	if(parent) {
+		// wait until the other verses are done
+		wait(nverses == 0);
+		// if there weren't any unsorted pairs then that means the list must be sorted
+		return nunsorted == 0;
+	}
+	// split by the indices we calculated earlier
+	split i = indices;
+	// if this pair isn't sorted
+	if(!cb(arr[i], arr[i+1])) {
+		// decrement number of verses running and die
+		nverses -= 1;
+		die;
+	}
+	// otherwise it is sorted, so decrement number of verses running, number of unsorted pairs, and die.
+	nunsorted -= 1;
+	nverses -= 1;
+	die;
+};
+global quantum_bogosort = { arr, cb ->
+	// split into permutations
+	split permutation = $permute(arr);
+	// if it is sorted, return it
+	if(is_sorted(permutation, cb))
+		return permutation;
+	// otherwise, die
+	die;
+};
+
+
+global compare = { x, y -> return x <= y; };
+
+$println(quantum_bogosort([1, 2, 3, 4, 8, -2, 10], compare));
