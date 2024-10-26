@@ -1,6 +1,8 @@
 /// Contains some utilities used by other parts of this package
 module delic.common;
 
+import std.conv;
+
 /// Returns a single unbuffered character from stdin
 char getch();
 
@@ -43,16 +45,29 @@ else version(Posix) {
 }
 else static assert(0, "There is currently no implementation of getch() for your system. Please implement one in order to compile DELIC.");
 
+/// A file position
+struct FilePos {
+	string file;
+	int line;
+	int col;
+	string toString() => file~":"~(line+1).to!string~":"~(col+1).to!string;
+}
+
 /// Thrown when an error occurs in any of the interpreters
 class InterpreterException : Exception {
 	this(string msg) {
 		super(msg);
 	}
-	import std.conv;
 	this(int line, string msg) {
 		super(line.to!string~": "~msg);
 	}
 	this(int line, int col, string msg) {
 		super(line.to!string~":"~col.to!string~": "~msg);
+	}
+	this(string file, int line, int col, string msg) {
+		super(file~":"~line.to!string~":"~col.to!string~": "~msg);
+	}
+	this(FilePos pos, string msg) {
+		super(pos.toString()~": "~msg);
 	}
 }

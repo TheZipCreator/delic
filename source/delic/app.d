@@ -1,5 +1,6 @@
 import std.stdio, std.getopt, std.file, std.traits, std.algorithm, std.conv, std.string;
 import delic;
+static import delic.splitverse; // don't know why this is only necessary for this one but ok
 
 enum Language {
 	none,
@@ -10,6 +11,7 @@ enum Language {
 	set,
 	thue,
 	turimg,
+	splitverse,
 }
 
 struct LanguageInfo {
@@ -56,7 +58,12 @@ shared static this() {
 			"Turimg",
 			"A language meant to directly emulate a turing machine.",
 			"Turimg"
-		),			
+		),
+		Language.splitverse: LanguageInfo(
+			"Splitverse",
+			"A language that lets you split and end the universe.",
+			"Splitverse"
+		)
 	];  			
 
 }
@@ -89,7 +96,7 @@ int main(string[] args) {
 			writeln("No language specified.");
 			return 1;
 		}
-		void run(string code) {
+		void run(string filename, string code) {
 			final switch(lang) {
 				case Language.none:
 					// unreachable
@@ -121,16 +128,19 @@ int main(string[] args) {
 				case Language.deadfish:
 					delic.deadfish.interpret(code);
 					break;
+				case Language.splitverse:
+					delic.splitverse.interpret(filename, code);
+					break;
 			}
 		}
 		if(source) {
-			foreach(string code; args[1..$]) {
-				run(code);
+			foreach(size_t i, string code; args[1..$]) {
+				run("argument "~i.to!string, code);
 			}
 		} else {
 			foreach(string file; args[1..$]) {
 				string code = readText(file);
-				run(code);
+				run(file, code);
 			}
 		}
 	} catch(GetOptException e) {
