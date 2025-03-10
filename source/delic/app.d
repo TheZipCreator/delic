@@ -64,6 +64,7 @@ shared static this() {
 int main(string[] args) {
 	Language lang;
 	bool outputFinalState = false;
+	bool printIterations = false;
 	bool asciiMode = false;
 	bool assembleDouble = false;
 	bool source = false;
@@ -72,6 +73,7 @@ int main(string[] args) {
 			"source|s", "Understand arguments as source code and not as files to read from (one argument per source).", &source,
 			"language|l", "The language to interpret. One of: "~[EnumMembers!Language][1..$].map!(x => x.to!string).join(", ")~".", &lang,
 			"outputFinalState", "(Thue) Output the final state after program execution finishes.", &outputFinalState,
+			"printIterations", "(Thue) Print every iteration.", &printIterations,
 			"asciiMode", "(Turimg) Enable ascii mode", &asciiMode,
 		);
 		if(opt.helpWanted || args.length == 1) {
@@ -100,7 +102,7 @@ int main(string[] args) {
 					break;
 				}
 				case Language.thue: {
-					string s = delic.thue.interpret(code);
+					string s = delic.thue.interpret(code, printIterations);
 					if(outputFinalState)
 						writeln("\n", s);
 					break;
