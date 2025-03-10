@@ -34,7 +34,7 @@ string interpret(string code, bool printIterations) {
 	uint iter = 0; // current iteration
 	while(true) {
 		if(printIterations)
-			writeln(iter++, ": ", state);
+			writefln("% 4d: %s", iter++, state);
 		Rule[] possibles; // all rules that currently could apply
 		foreach(rule; rules) {
 			if(state.indexOf(rule.pre) != -1)
