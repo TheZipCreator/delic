@@ -31,9 +31,10 @@ string interpret(string code, bool printIterations) {
 			rules ~= Rule(line[0..dec], line[dec+3..$]);
 		}
 	}
+	uint iter = 0; // current iteration
 	while(true) {
 		if(printIterations)
-			writeln(state);
+			writeln(iter++, ": ", state);
 		Rule[] possibles; // all rules that currently could apply
 		foreach(rule; rules) {
 			if(state.indexOf(rule.pre) != -1)
