@@ -43,17 +43,30 @@ string interpret(string code, bool printIterations) {
 		if(possibles.length == 0)
 			break;
 		Rule r = possibles[uniform(0, $)];
+		// pick which thing to replace
+		size_t[] indices;
+		{
+			long index = -1;
+			while(true) {
+				index = state.indexOf(r.pre, index+1);
+				if(index == -1)
+					break;
+				indices ~= cast(size_t)index;
+			}
+		}
+		size_t index = indices[uniform(0, $)], off = index+r.pre.length;
 		// put to stdout
 		if(r.post.startsWith("~")) {
-			state = state.replace(r.pre, "");
+			state = state[0..index]~state[off..$];
 			writeln(r.post[1..$]);
 			continue;
 		}
 		// read from stdin
 		if(r.post == ":::") {
-			state = state.replace(r.pre, readln()[0..$-1]);
+			state = state[0..index]~readln()[0..$-1]~state[off..$];
+			continue;
 		}
-		state = state.replace(r.pre, r.post);
+		state = state[0..index]~r.post~state[off..$];
 	}
 	return state;
 }
